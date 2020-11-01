@@ -27,10 +27,12 @@ In the most simple case you already have go installed:
 ### Full tutorial for Amazon AWS:
 1. Create a new EC2 instance (t2.micro is fine) with Amazon Linux 2 and add you ip for all tcp incoming connections in the security group
 2. Run the following commands on the server:
+```
         sudo yum install golang git -y
         git clone https://github.com/hija/EncryptedFileSharing.git
         go get -u github.com/Terry-Mao/goconf
         cd EncryptedFileSharing/backend && go run efs-server.go
+```
 3. Go to http://[YOUR-AWS-IP]:8080/ and try it out :)
 
 ### Using nginx as frontend server
