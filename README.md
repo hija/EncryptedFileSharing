@@ -20,12 +20,18 @@ EncryptedFileSharing is...
 In the most simple case you already have go installed:
 
 1. Clone this repository (`git clone https://github.com/hija/EncryptedFileSharing.git`)
-2. Go into the backend directory and run efs-server.go (`cd EncryptedFileSharing/backedn && go run efs-server.go`)
+2. Go into the backend directory and run efs-server.go (`cd EncryptedFileSharing/backend && go run efs-server.go`)
 3. Head over to http://localhost:8080/ and try it out :) (I recommend using a small file, e.g. a text file, first)
 
 
 ### Full tutorial for Amazon AWS:
-(TODO)
+1. Create a new EC2 instance (t2.micro is fine) with Amazon Linux 2 and add you ip for all tcp incoming connections in the security group
+2. Run the following commands on the server:
+    sudo yum install golang git -y
+    git clone https://github.com/hija/EncryptedFileSharing.git
+    go get -u github.com/Terry-Mao/goconf
+    cd EncryptedFileSharing/backend && go run efs-server.go
+3. Go to http://[YOUR-AWS-IP]:8080/ and try it out :)
 
 ### Using nginx as frontend server
 (TODO)
