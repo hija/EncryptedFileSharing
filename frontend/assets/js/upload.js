@@ -14,28 +14,21 @@ function encryptFileAndSend(file) {
     var reader = new FileReader();
     reader.onload = () => {
 
-        // We create a json object which contains all important information, i.e. mimetype + filename
-        var unencryptedFileData = {
-            'fileName': file.name,
-            'fileData': reader.result
-        };
-
-        // Now we convert this data --> string which will be encrypted
-        var unencryptedFileAsJsonString = JSON.stringify(unencryptedFileData);
-
         // This data is encrypted now
-        var wordArray = CryptoJS.lib.WordArray.create(unencryptedFileAsJsonString);
-        var encrypted = CryptoJS.AES.encrypt(wordArray, randomKey).ciphertext;
+        var wordArray = CryptoJS.lib.WordArray.create(reader.result);
+        var encryptedFile = CryptoJS.AES.encrypt(wordArray, randomKey);
         
         // Encrypted data is converted to string
-        var encryptStr = encrypted.toString(CryptoJS.enc.Base64); // TODO: Maybe chose other encoding, so we save space?
+        var encryptedFileStr = encryptedFile.toString();
+        var encryptedFileNameStr =  CryptoJS.AES.encrypt(file.name, randomKey).toString();
 
         // This data is send to the server now
         $.ajax({                    
             url: 'http://localhost:8080/api/upload',     
             type: 'post',
             data : JSON.stringify({
-              encryptedData : encryptStr
+              encryptedFile : encryptedFileStr,
+              encryptedFileName: encryptedFileNameStr
             }),
             dataType: 'json',                   
             success: function(data)         
