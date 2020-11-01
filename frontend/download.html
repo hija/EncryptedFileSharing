@@ -35,35 +35,19 @@
     </div>
 </div>
 
-<div class="jumbotron upload-container" id="uploadcontainer">
-    <div class="container" id="uploadcontainertext">
-        <div id="drop-zone">
-            Choose the file which shall be uploaded.
-            <form>
-                <input type="file" name="file" id="file" />
-            </form>
-        </div>
-    </div>
-</div>
-
-</div>
-
-<div class="jumbotron upload-successful" id="sharingcontainer" style="display: none;">
+<div class="jumbotron upload-successful">
     <div class="container">
-        <h2 class="display-3">Upload was successful!</h2>
-        <p>Your data has been uploaded to the server and is available for download 🎉</p>
-        
-        Please share the following link to your friends to they can download the file:</p>
-
-        <input type="text" class="form-control" id="shareURL" readonly>
-
+        <h2 class="display-3">Download is being prepared 🍽</h2>
+        In the background we are currently downloading your encrypted file and we are trying to decrypt it.
+        Once we are done, the download window will automatically pop up. Just relax and wait for the download to begin 😎
     </div>
 </div>
 
 <div class="jumbotron info-container">
 <div class="container">
-  <h3>How it works</h3>
+  <h3>Share encrypted files yourself!</h3>
   <ul>
+      <li>Head over to our <a href="index.html">Upload Page</a></li>
       <li>You select the file you want to upload.</li>
       <li>The file gets encrypted with a secure, random key 🔒</li>
       <li>The encrypted file is uplaoded to the server. The server operator cannot see the contents of the file nor the file name, since it is encrypted.</li>
@@ -84,6 +68,10 @@
 
 <script src="assets/js/jquery-3.5.1.min.js"></script>
 <script src="assets/js/crypto-js.js"></script>
-<script src="assets/js/upload.js"></script>
+<script src="assets/js/download.js"></script>
+
+<script>
+    downloadAndDecrypt();
+</script>
 
 </html>

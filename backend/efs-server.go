@@ -19,8 +19,8 @@ type EFSConfig struct {
 
 type EFSUpload struct {
 	// This is what we get from the client as JSON
-	EncryptedFile     string // The encrypted file itself
-	EncryptedFileName string // The encrypted file name
+	EncryptedFile     string `json:"encryptedFile"`     // The encrypted file itself
+	EncryptedFileName string `json:"encryptedFileName"` // The encrypted file name
 }
 
 type EFSConfiguration struct {
@@ -41,8 +41,36 @@ func downloadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// First we need to look up if the target config even exists
+	efsdownload := EFSDownload{}
+	json.NewDecoder(r.Body).Decode(&efsdownload)
 
+	efsConfigurationBytes, err := ioutil.ReadFile(filepath.Join(getConfig().Storage_path, efsdownload.EFSConfigurationName+".json"))
+	if err != nil {
+		http.Error(w, "File not found.", http.StatusNotFound)
+		return
+	}
+	efsConfiguration := EFSConfiguration{}
+	json.Unmarshal(efsConfigurationBytes, &efsConfiguration)
+
+	// Next we need to read in the file again and encode it to Base64 again
+	binFileBytes, err := ioutil.ReadFile(filepath.Join(getConfig().Storage_path, efsdownload.EFSConfigurationName))
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	base64EncodedFile := base64.StdEncoding.EncodeToString(binFileBytes)
+
+	// Now we create the efsupload again
+	efsupload := EFSUpload{}
+	efsupload.EncryptedFile = base64EncodedFile
+	efsupload.EncryptedFileName = efsConfiguration.EncryptedFileName
+
+	// Send it back to the client
+	efsuploadBytes, err := json.Marshal(efsupload)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	w.Write(efsuploadBytes)
 }
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
@@ -113,6 +141,7 @@ func main() {
 
 	// Register Handlers
 	http.HandleFunc("/api/upload", uploadHandler)
+	http.HandleFunc("/api/download", downloadHandler)
 
 	// Read the config
 	config := getConfig()

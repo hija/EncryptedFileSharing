@@ -33,7 +33,10 @@ function encryptFileAndSend(file) {
             dataType: 'json',                   
             success: function(data)         
             {
-              console.log(data);
+              $('#uploadcontainer').fadeOut(1000, function(){
+                $('#shareURL').val(window.location.origin + '/download.html?fileId=' + data.EFSConfigurationName + '#' + randomKey);
+                $('#sharingcontainer').fadeIn();
+              });
             } 
         });
     };
@@ -42,5 +45,6 @@ function encryptFileAndSend(file) {
 
 $("#file").change(function(e) {
     var file = e.target.files[0];
+    $('#uploadcontainertext').innerHTML = '<h1 class="display-3">We are uploading 🚀</h1><p>We are uploading your file to the server. Please wait!</p>';
     encryptFileAndSend(file);
 });
