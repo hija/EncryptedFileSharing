@@ -13,8 +13,10 @@ import (
 )
 
 type EFSConfig struct {
-	Port         int    `goconf:"server:port"`
-	Storage_path string `goconf:"server:storage_path"`
+	Port          int    `goconf:"server:port"`
+	Storage_path  string `goconf:"server:storage_path"`
+	ServeFrontend bool   `goconf:"server:serve_frontend"`
+	FrontendPath  string `goconf:"server:frontend_path"`
 }
 
 type EFSUpload struct {
@@ -145,6 +147,12 @@ func main() {
 
 	// Read the config
 	config := getConfig()
+
+	// If we shall serve frontend we do it :)
+	if config.ServeFrontend {
+		fs := http.FileServer(http.Dir(config.FrontendPath))
+		http.Handle("/", fs)
+	}
 
 	fmt.Printf("Starting Encrypted File Sharing server at port %d\n", config.Port)
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil); err != nil {

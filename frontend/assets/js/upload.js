@@ -24,7 +24,7 @@ function encryptFileAndSend(file) {
 
         // This data is send to the server now
         $.ajax({                    
-            url: 'http://localhost:8080/api/upload',     
+            url: '/api/upload',     
             type: 'post',
             data : JSON.stringify({
               encryptedFile : encryptedFileStr,

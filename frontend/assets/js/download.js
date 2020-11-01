@@ -29,7 +29,7 @@ function getUrlParameter(sParam) {
 function requestEncryptedFile(efsconfigurationame){
      // This data is send to the server now
      return $.ajax({
-        url: 'http://localhost:8080/api/download',     
+        url: '/api/download',     
         type: 'post',
         data : JSON.stringify({
             EFSConfigurationName: efsconfigurationame
