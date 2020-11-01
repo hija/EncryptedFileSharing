@@ -1,5 +1,3 @@
-
-
 function downloadAndDecrypt(){
     var efsconfigurationame = getUrlParameter("fileId");
     var encryptionKey = window.location.hash.substr(1);
