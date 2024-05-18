@@ -1,3 +1,6 @@
+⚠️ This project is **deprecated**. It is not recommended to use it in production. ⚠️
+
+---
 # EncryptedFileSharing
 EncryptedFileSharing is a minimal file sharing service which allows users to share files which are encrypted before being uploaded. As a result, even the server operator cannot see the unencrypted content. EncryptedFileSharing uses mainly **Go and Javascript**.
 
